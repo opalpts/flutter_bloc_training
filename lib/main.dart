@@ -18,35 +18,15 @@ class MyApp extends StatelessWidget {
     final counterBloc =
         BlocProvider<CounterBloc>(create: (context) => CounterBloc());
 
-    // final _router = GoRouter(
-    //   initialLocation: '/',
-    //   routes: [
-    //     GoRoute(
-    //       name: 'home',
-    //       path: '/',
-    //       builder: (context, state) => const MyHomePage(title: "HomePage"),
-    //     ),
-    //     GoRoute(
-    //       name: 'login',
-    //       path: '/login',
-    //       builder: (context, state) => const LoginPage(
-    //         title: "LoginPage",
-    //       ),
-    //     ),
-    //   ],
-    // );
     return MultiBlocProvider(
       providers: [counterBloc],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Flutter Training',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         home: const MyHomePage(title: 'HomePage'),
-        // routeInformationParser:
-        //     AppRoute.returnRouter(false).routeInformationParser,
-        // routerDelegate: AppRoute.returnRouter(false).routerDelegate,
       ),
     );
   }
