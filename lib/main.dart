@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_training/app_route.dart';
 import 'package:flutter_bloc_training/bloc/counter/counter_bloc.dart';
-import 'package:flutter_bloc_training/bloc/counter_observer.dart';
+import 'package:flutter_bloc_training/bloc/app_observer.dart';
 import 'package:flutter_bloc_training/page/home.dart';
 
 void main() {
-  Bloc.observer = const CounterObserver();
+  Bloc.observer = const AppObserver();
   runApp(const MyApp());
 }
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final todosBloc =
+    final counterBloc =
         BlocProvider<CounterBloc>(create: (context) => CounterBloc());
 
     // final _router = GoRouter(
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     //   ],
     // );
     return MultiBlocProvider(
-      providers: [todosBloc],
+      providers: [counterBloc],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
