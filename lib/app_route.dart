@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc_training/page/home.dart';
+import 'package:flutter_bloc_training/page/counter.dart';
 import 'package:flutter_bloc_training/page/login.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,7 +12,7 @@ class AppRoute {
           name: 'home',
           path: '/',
           pageBuilder: (context, state) =>
-              const MaterialPage(child: MyHomePage(title: "HomePage")),
+              const MaterialPage(child: CounterPage()),
         ),
         GoRoute(
           name: 'login',

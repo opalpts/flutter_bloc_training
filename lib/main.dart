@@ -4,7 +4,7 @@ import 'package:flutter_bloc_training/app_route.dart';
 import 'package:flutter_bloc_training/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_training/bloc/app_observer.dart';
 import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
-import 'package:flutter_bloc_training/page/home.dart';
+import 'package:flutter_bloc_training/page/counter.dart';
 import 'package:flutter_bloc_training/page/login.dart';
 
 void main() {
@@ -12,8 +12,17 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<MyApp> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [counterBloc, loginBloc],
       child: MaterialApp(
+        navigatorKey: _navigatorKey,
         title: 'Flutter Training',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -4,7 +4,7 @@ final class LoginState extends Equatable {
   const LoginState({
     this.username = '',
     this.password = '',
-    this.formStatus = const InitialFormStatus(),
+    this.formStatus = AuthenticationStatus.unknown,
   });
 
   final String username;
@@ -13,12 +13,12 @@ final class LoginState extends Equatable {
   final String password;
   bool get isValidPassword => password.length > 6;
 
-  final FormSubmissionStatus formStatus;
+  final AuthenticationStatus formStatus;
 
   LoginState copyWith({
     String? username,
     String? password,
-    FormSubmissionStatus? formStatus,
+    AuthenticationStatus? formStatus,
   }) {
     return LoginState(
       username: username ?? this.username,

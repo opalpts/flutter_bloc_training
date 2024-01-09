@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc_training/bloc/login/login.dart';
+import 'package:flutter_bloc_training/bloc/login/enum/status.dart';
 import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';
@@ -20,14 +20,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // Password updated
     } else if (event is LoginPasswordChanged) {
       emit(state.copyWith(password: event.password));
-
       // Form submitted
     } else if (event is LoginSubmitted) {
-      emit(state.copyWith(formStatus: FormSubmitting()));
-      if (state.username == '1234' && state.password == '12345678') {
-        emit(state.copyWith(formStatus: SubmissionSuccess()));
+      emit(state.copyWith(formStatus: AuthenticationStatus.loading));
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (state.password == '12345678') {
+        emit(state.copyWith(formStatus: AuthenticationStatus.success));
       } else {
-        emit(state.copyWith(formStatus: SubmissionFailed('Login fail')));
+        emit(state.copyWith(formStatus: AuthenticationStatus.failed));
       }
     }
   }

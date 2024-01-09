@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_training/bloc/login/login.dart';
+import 'package:flutter_bloc_training/bloc/login/enum/status.dart';
 import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
+import 'package:flutter_bloc_training/page/counter.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,12 +14,14 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: BlocProvider(
-          create: (context) {
-            return LoginBloc();
-          },
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('LoginPage'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: loginForm(context),
         ),
       ),
@@ -31,13 +34,20 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
-
-          if (formStatus is SubmissionFailed) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')),
-              );
+          switch (formStatus) {
+            case AuthenticationStatus.success:
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const CounterPage();
+              }));
+            case AuthenticationStatus.failed:
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text('Authentication Failure')),
+                );
+            default:
+              break;
           }
         },
         child: Form(
@@ -108,19 +118,17 @@ class _LoginButton extends StatelessWidget {
   final dynamic formKey;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        return state.formStatus is FormSubmitting
-            ? const Center(child: CircularProgressIndicator())
-            : ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    context.read<LoginBloc>().add(LoginSubmitted());
-                  }
-                },
-                child: const Text('Login'),
-              );
-      },
-    );
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      return state.formStatus == AuthenticationStatus.loading
+          ? const Center(child: CircularProgressIndicator())
+          : ElevatedButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  context.read<LoginBloc>().add(LoginSubmitted());
+                }
+              },
+              child: const Text('Login'),
+            );
+    });
   }
 }
