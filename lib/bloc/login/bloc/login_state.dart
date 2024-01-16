@@ -4,7 +4,7 @@ final class LoginState extends Equatable {
   const LoginState({
     this.username = '',
     this.password = '',
-    this.formStatus = AuthenticationStatus.unknown,
+    this.status = AuthenticationStatus.unknown,
   });
 
   final String username;
@@ -13,20 +13,20 @@ final class LoginState extends Equatable {
   final String password;
   bool get isValidPassword => password.length > 6;
 
-  final AuthenticationStatus formStatus;
+  final AuthenticationStatus status;
 
   LoginState copyWith({
     String? username,
     String? password,
-    AuthenticationStatus? formStatus,
+    AuthenticationStatus? status,
   }) {
     return LoginState(
       username: username ?? this.username,
       password: password ?? this.password,
-      formStatus: formStatus ?? this.formStatus,
+      status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [username, password, formStatus];
+  List<Object?> get props => [username, password, status];
 }

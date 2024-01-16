@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_training/bloc/login/enum/status.dart';
 import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
-import 'package:flutter_bloc_training/page/counter.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -28,14 +28,13 @@ class LoginPage extends StatelessWidget {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return BlocListener<LoginBloc, LoginState>(
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          final formStatus = state.formStatus;
+          final formStatus = state.status;
           switch (formStatus) {
             case AuthenticationStatus.success:
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return const CounterPage();
-              }));
+              context.goNamed('home');
+            // GoRouter.of(context).pushNamed('home');
             case AuthenticationStatus.failed:
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
@@ -57,6 +56,11 @@ class LoginPage extends StatelessWidget {
               _PasswordInput(),
               const SizedBox(height: 15),
               _LoginButton(formKey: _formKey),
+              ElevatedButton(
+                  child: const Text('Go to Users'),
+                  onPressed: () {
+                    context.go('/home');
+                  }),
             ],
           ),
         ));
@@ -115,7 +119,7 @@ class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return state.formStatus == AuthenticationStatus.loading
+      return state.status == AuthenticationStatus.loading
           ? const Center(child: CircularProgressIndicator())
           : ElevatedButton(
               onPressed: () {

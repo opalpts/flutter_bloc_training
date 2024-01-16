@@ -22,13 +22,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(password: event.password));
       // Form submitted
     } else if (event is LoginSubmitted) {
-      emit(state.copyWith(formStatus: AuthenticationStatus.loading));
+      emit(state.copyWith(status: AuthenticationStatus.loading));
       await Future.delayed(const Duration(milliseconds: 500));
 
       if (state.password == '12345678') {
-        emit(state.copyWith(formStatus: AuthenticationStatus.success));
+        emit(state.copyWith(status: AuthenticationStatus.success));
       } else {
-        emit(state.copyWith(formStatus: AuthenticationStatus.failed));
+        emit(state.copyWith(status: AuthenticationStatus.failed));
       }
     }
   }
