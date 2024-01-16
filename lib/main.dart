@@ -22,8 +22,6 @@ class MyApp extends StatefulWidget {
 class _AppViewState extends State<MyApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
-
   @override
   Widget build(BuildContext context) {
     final counterBloc =
@@ -33,13 +31,17 @@ class _AppViewState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [counterBloc, loginBloc],
       child: MaterialApp(
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const LoginPage(),
+          '/home': (context) => const CounterPage(),
+        },
         navigatorKey: _navigatorKey,
         title: 'Flutter Training',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const LoginPage(),
       ),
     );
   }

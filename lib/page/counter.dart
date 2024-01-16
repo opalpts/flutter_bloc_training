@@ -6,10 +6,6 @@ import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const CounterPage());
-  }
-
   @override
   State<CounterPage> createState() => _CounterPage();
 }
