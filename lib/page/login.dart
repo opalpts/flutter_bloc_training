@@ -56,11 +56,6 @@ class LoginPage extends StatelessWidget {
               _PasswordInput(),
               const SizedBox(height: 15),
               _LoginButton(formKey: _formKey),
-              ElevatedButton(
-                  child: const Text('Go to Users'),
-                  onPressed: () {
-                    context.go('/home');
-                  }),
             ],
           ),
         ));
