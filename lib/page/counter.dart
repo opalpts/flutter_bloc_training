@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_training/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
@@ -17,6 +18,15 @@ class _CounterPage extends State<CounterPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Counter Page'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'logout',
+            onPressed: () {
+              context.goNamed('login');
+            },
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
