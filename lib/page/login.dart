@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_training/bloc/login/enum/status.dart';
 import 'package:flutter_bloc_training/bloc/login/bloc/login_bloc.dart';
+import 'package:flutter_bloc_training/model/login_modal.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
@@ -31,10 +32,11 @@ class LoginPage extends StatelessWidget {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           final formStatus = state.status;
+          final username = state.username;
           switch (formStatus) {
             case AuthenticationStatus.success:
+              context.read<LoginInfo>().login(username);
               context.goNamed('home');
-            // GoRouter.of(context).pushNamed('home');
             case AuthenticationStatus.failed:
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
